@@ -1,7 +1,10 @@
 use std::io;
 use std::io::Write;
 fn main() {
+    task_1()
+}
 
+fn task_1() {
     // Write a program that calculates the total number of Easter eggs collected 
     // over 5 days. The program must accept 5 separate inputs (storing the inputs 
     // as integers) for the number of eggs collected each day. If the total is 50 
