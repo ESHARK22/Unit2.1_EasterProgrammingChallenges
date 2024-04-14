@@ -11,7 +11,7 @@ fn main() {
     println!("*** Task 1 ***");
     let mut input_day       = 1_u8;
     let mut collected_eggs  = 0_u8;
-
+    
     while input_day != 6 {
 
         //
@@ -65,7 +65,7 @@ fn main() {
         //
 
         collected_eggs += input.unwrap(); // Still a Result type, so unwrap it.
-        input_day += 1;
+        input_day += 1; // Next day
     }
 
     if collected_eggs >= 50 {
