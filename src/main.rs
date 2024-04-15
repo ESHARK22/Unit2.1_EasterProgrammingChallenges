@@ -1,7 +1,31 @@
 use std::io;
 use std::io::Write;
+
+use dialoguer::{theme::ColorfulTheme, Select};
+
 fn main() {
-    task_1()
+    // task_1()
+    let selections = &[
+        "Task 1 - Enough Easter Eggs?",
+    ];
+
+    let selection_index = Select::with_theme(&ColorfulTheme::default())
+        .with_prompt("Select the task you would like to run")
+        .default(0)
+        .items(&selections[..])
+        .interact()
+        .unwrap();
+
+    let selected_index = selection_index + 1;
+
+    match selected_index {
+            1 => {  task_1()    }  
+            _ => {
+                println!("I dont know that task!!!")
+            }
+    }
+
+
 }
 
 fn task_1() {
