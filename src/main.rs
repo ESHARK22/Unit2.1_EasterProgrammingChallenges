@@ -19,7 +19,6 @@ fn task_1() {
 
         //
         // Print the prompt
-        //
 
         print!("How many egges did you collect on day {input_day}? ");
         let flush_res = io::stdout().flush();
@@ -36,7 +35,6 @@ fn task_1() {
 
         //
         // Read input into a buffer
-        //
 
         let mut inp_buffer = String::new();                     // New "buffer" to store the string
         let inp_res = io::stdin().read_line(&mut inp_buffer);   // Read stdin into the "buffer"
@@ -52,7 +50,6 @@ fn task_1() {
 
         //
         // Cast from string to u8
-        //
 
         let input = inp_buffer.trim().parse::<u8>();
         match input {
@@ -65,7 +62,6 @@ fn task_1() {
 
         //
         // Add to the total collected, and move onto the next day
-        //
 
         collected_eggs += input.unwrap(); // Still a Result type, so unwrap it.
         input_day += 1; // Next day
