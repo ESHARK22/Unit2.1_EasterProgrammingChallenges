@@ -7,6 +7,16 @@ fn main() {
     // task_1()
     let selections = &[
         "Task 1 - Enough Easter Eggs?",
+        "Task 2",
+        "Task 3",
+        "Task 4",
+        "Task 5",
+        "Task 6",
+        "Task 7",
+        "Task 8",
+        "Task 9",
+        "Task 10",
+        "Quit :("
     ];
 
     let selection_index = Select::with_theme(&ColorfulTheme::default())
@@ -19,10 +29,26 @@ fn main() {
     let selected_index = selection_index + 1;
 
     match selected_index {
-            1 => {  task_1()    }  
-            _ => {
-                println!("I dont know that task!!!")
+            1 => { task_1()  }  
+            2 => { task_2()  }  
+            3 => { task_3()  }  
+            4 => { task_4()  }  
+            5 => { task_5()  }  
+            6 => { task_6()  }  
+            7 => { task_7()  }  
+            8 => { task_8()  }  
+            9 => { task_9()  }  
+            10 =>{ task_10() }  
+            
+            11 => {
+                // Quit :(
+                println!("Goodbye!");
+                return 
             }
+            _ => {
+                println!("Thats not a task!")
+            }
+
     }
 
 
@@ -101,4 +127,40 @@ fn task_1() {
         println!("Good effort, but lets try to find more eggs next time.")
     }
 
+}
+
+fn task_2() {
+    todo!()
+}
+
+fn task_3() {
+    todo!()
+}
+
+fn task_4() {
+    todo!()
+}
+
+fn task_5() {
+    todo!()
+}
+
+fn task_6() {
+    todo!()
+}
+
+fn task_7() {
+    todo!()
+}
+
+fn task_8() {
+    todo!()
+}
+
+fn task_9() {
+    todo!()
+}
+
+fn task_10() {
+    todo!()
 }
