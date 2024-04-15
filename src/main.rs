@@ -29,13 +29,17 @@ fn main() {
 }
 
 fn task_1() {
-    // Write a program that calculates the total number of Easter eggs collected 
-    // over 5 days. The program must accept 5 separate inputs (storing the inputs 
-    // as integers) for the number of eggs collected each day. If the total is 50 
-    // or more, print "Great job! You are an Easter egg superstar!". Otherwise, 
-    // print "Good effort, but lets try to find more eggs next time.". 
+    println!(
+        "
+        *** Task 1 ***
+        Write a program that calculates the total number of Easter eggs collected 
+        over 5 days. The program must accept 5 separate inputs (storing the inputs 
+        as integers) for the number of eggs collected each day. If the total is 50 
+        or more, print \"Great job! You are an Easter egg superstar!\". Otherwise, 
+        print \"Good effort, but lets try to find more eggs next time.\".
+        "
+    );
 
-    println!("*** Task 1 ***");
     let mut input_day       = 1_u8;
     let mut collected_eggs  = 0_u8;
     
