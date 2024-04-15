@@ -7,7 +7,7 @@ fn main() {
     // task_1()
     let selections = &[
         "Task 1 - Enough Easter Eggs?",
-        "Task 2",
+        "Task 2 - Basketful of Eggs!",
         "Task 3",
         "Task 4",
         "Task 5",
@@ -130,7 +130,140 @@ fn task_1() {
 }
 
 fn task_2() {
-    todo!()
+    println!(
+        "
+        *** Task 2 ***
+        The Easter Bunny is preparing baskets. For each basket, he needs 3 types of 
+        eggs: chocolate, gold, and silver. The user inputs the number of each type 
+        of egg per basket and the number of baskets. Calculate and print the total 
+        number of eggs needed. 
+        "
+    );
+    let mut num_baskets = 0_u8;
+
+    let mut num_choco   = 0_u8;
+    let mut num_gold    = 0_u8;  
+    let mut num_silver  = 0_u8;
+
+    let mut collected = 0;
+    while collected != 3 {
+
+        let mut egg_type = "";
+        let mut egg_var = &mut num_choco;
+
+        match collected {
+            0 => {
+                egg_type = "chocolate";
+                egg_var = &mut num_choco;
+            }
+            1 => {
+                egg_type = "gold";
+                egg_var = &mut num_gold;
+            }        
+            2 => {
+                egg_type = "silver";
+                egg_var = &mut num_silver;
+            }
+            _ => {
+                panic!("You're not meant to see this!!!")
+            }
+        }
+
+        print!("How many {egg_type} eggs per basket? ");
+
+        //
+        // Flush stdout
+        let flush_res = io::stdout().flush();
+        match flush_res {
+            Ok(_) => {}
+            Err(error) => {
+                println!("error: {error} \nTry again...");
+                continue    // Go to the next iteration
+            },
+        }
+        
+        //
+        // Read the users input into a buffer
+        let mut inp_buffer = String::new();
+        let inp_res =  io::stdin().read_line(&mut inp_buffer);
+        match inp_res {
+            Ok(_) => {}
+            Err(error) => {
+                println!("error: {error} \nTry again...");
+                continue    // Go to the next iteration
+            }
+        }
+        
+        //
+        // Cast from string to u8
+        let input = inp_buffer.trim().parse::<u8>();
+        match input {
+            Ok(_) => {}     // Continue
+            Err(error) => {
+                println!("error: {error} \nTry again...");
+                continue    // Go to the next iteration
+            }
+        }
+
+        *egg_var = input.unwrap();
+        collected += 1;
+    }
+
+    loop {
+        print!("How many baskets would you like? ");
+
+        //
+        // Flush stdout
+        let flush_res = io::stdout().flush();
+        match flush_res {
+            Ok(_) => {}
+            Err(error) => {
+                println!("error: {error} \nTry again...");
+                continue    // Go to the next iteration
+            },
+        }
+        
+        //
+        // Read the users input into a buffer
+        let mut inp_buffer = String::new();
+        let inp_res =  io::stdin().read_line(&mut inp_buffer);
+        match inp_res {
+            Ok(_) => {}
+            Err(error) => {
+                println!("error: {error} \nTry again...");
+                continue    // Go to the next iteration
+            }
+        }
+        
+        //
+        // Cast from string to u8
+        let input = inp_buffer.trim().parse::<u8>();
+        match input {
+            Ok(_) => {}     // Continue
+            Err(error) => {
+                println!("error: {error} \nTry again...");
+                continue    // Go to the next iteration
+            }
+        }
+
+        num_baskets = input.unwrap();
+        break;
+    }
+
+    let total_choco = num_choco * num_baskets;
+    let total_gold = num_gold * num_baskets;
+    let total_silver = num_silver * num_baskets;
+
+    let total_total = total_choco + total_gold + total_silver;
+
+    println!("
+    Total chocolate eggs required: {total_choco}
+    Total gold eggs required: {total_gold}
+    Total silver eggs required: {total_silver}
+
+    Total eggs required: {total_total}
+    ")
+
 }
 
 fn task_3() {
