@@ -18,39 +18,39 @@ fn main() {
         "Task 10",
         "Quit :("
     ];
+    loop {
+        let selection_index = Select::with_theme(&ColorfulTheme::default())
+            .with_prompt("Select the task you would like to run")
+            .default(0)
+            .items(&selections[..])
+            .interact()
+            .unwrap();
 
-    let selection_index = Select::with_theme(&ColorfulTheme::default())
-        .with_prompt("Select the task you would like to run")
-        .default(0)
-        .items(&selections[..])
-        .interact()
-        .unwrap();
+        let selected_index = selection_index + 1;
 
-    let selected_index = selection_index + 1;
+        match selected_index {
+                1 => { task_1()  }  
+                2 => { task_2()  }  
+                3 => { task_3()  }  
+                4 => { task_4()  }  
+                5 => { task_5()  }  
+                6 => { task_6()  }  
+                7 => { task_7()  }  
+                8 => { task_8()  }  
+                9 => { task_9()  }  
+                10 =>{ task_10() }  
+                
+                11 => {
+                    // Quit :(
+                    println!("Goodbye!");
+                    return 
+                }
+                _ => {
+                    println!("Thats not a task!")
+                }
 
-    match selected_index {
-            1 => { task_1()  }  
-            2 => { task_2()  }  
-            3 => { task_3()  }  
-            4 => { task_4()  }  
-            5 => { task_5()  }  
-            6 => { task_6()  }  
-            7 => { task_7()  }  
-            8 => { task_8()  }  
-            9 => { task_9()  }  
-            10 =>{ task_10() }  
-            
-            11 => {
-                // Quit :(
-                println!("Goodbye!");
-                return 
-            }
-            _ => {
-                println!("Thats not a task!")
-            }
-
+        }
     }
-
 
 }
 
@@ -139,7 +139,7 @@ fn task_2() {
         number of eggs needed. 
         "
     );
-    let mut num_baskets = 0_u8;
+    let num_baskets: u8;
 
     let mut num_choco   = 0_u8;
     let mut num_gold    = 0_u8;  
