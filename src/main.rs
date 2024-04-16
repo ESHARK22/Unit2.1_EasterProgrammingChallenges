@@ -148,26 +148,14 @@ fn task_2() {
     let mut collected = 0;
     while collected != 3 {
 
-        let mut egg_type = "";
-        let mut egg_var = &mut num_choco;
-
-        match collected {
-            0 => {
-                egg_type = "chocolate";
-                egg_var = &mut num_choco;
-            }
-            1 => {
-                egg_type = "gold";
-                egg_var = &mut num_gold;
-            }        
-            2 => {
-                egg_type = "silver";
-                egg_var = &mut num_silver;
-            }
+        let (egg_type, egg_var) = match collected {
+            0 => {("chocolate", &mut num_choco)}
+            1 => {("gold",      &mut num_gold)}        
+            2 => {("silver",    &mut num_silver)}
             _ => {
                 panic!("You're not meant to see this!!!")
             }
-        }
+        };
 
         print!("How many {egg_type} eggs per basket? ");
 
