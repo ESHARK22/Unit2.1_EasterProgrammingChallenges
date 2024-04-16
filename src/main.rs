@@ -149,9 +149,9 @@ fn task_2() {
     while collected != 3 {
 
         let (egg_type, egg_var) = match collected {
-            0 => {("chocolate", &mut num_choco)}
-            1 => {("gold",      &mut num_gold)}        
-            2 => {("silver",    &mut num_silver)}
+            0 => {( "chocolate", &mut num_choco  )}
+            1 => {( "gold",      &mut num_gold   )}        
+            2 => {( "silver",    &mut num_silver )}
             _ => {
                 panic!("You're not meant to see this!!!")
             }
@@ -162,39 +162,38 @@ fn task_2() {
         //
         // Flush stdout
         let flush_res = io::stdout().flush();
-        match flush_res {
-            Ok(_) => {}
-            Err(error) => {
-                println!("error: {error} \nTry again...");
-                continue    // Go to the next iteration
-            },
+        if flush_res.is_err() {
+            // Print the error message and go to the next iteration
+            println!("error: {}", flush_res.unwrap_err());
+            println!("Try again...\n");
+            continue
         }
         
         //
-        // Read the users input into a buffer
+        // Read the users input into a bufferS
         let mut inp_buffer = String::new();
-        let inp_res =  io::stdin().read_line(&mut inp_buffer);
-        match inp_res {
-            Ok(_) => {}
-            Err(error) => {
-                println!("error: {error} \nTry again...");
-                continue    // Go to the next iteration
-            }
+        let input_res = io::stdin().read_line(&mut inp_buffer);
+        if input_res.is_err() {
+            // Print the error message and go to the next iteration
+            println!("error: {}", input_res.unwrap_err());
+            println!("Try again...\n");
+            continue
         }
         
-        //
+        // 
         // Cast from string to u8
-        let input = inp_buffer.trim().parse::<u8>();
-        match input {
-            Ok(_) => {}     // Continue
-            Err(error) => {
-                println!("error: {error} \nTry again...");
-                continue    // Go to the next iteration
-            }
-        }
+        let input_u8_res = inp_buffer.trim().parse::<u8>();
+        if input_u8_res.is_err()  {
+            // Print the error message and go to the next iteration
+            println!("error: {}", input_u8_res.unwrap_err());
+            println!("Try again...\n");
+            continue
 
-        *egg_var = input.unwrap();
-        collected += 1;
+        } else {
+            // All is good, set the value num_*, and move on to the next egg type
+            *egg_var = input_u8_res.unwrap();
+            collected += 1
+        };
     }
 
     loop {
@@ -203,44 +202,42 @@ fn task_2() {
         //
         // Flush stdout
         let flush_res = io::stdout().flush();
-        match flush_res {
-            Ok(_) => {}
-            Err(error) => {
-                println!("error: {error} \nTry again...");
-                continue    // Go to the next iteration
-            },
+        if flush_res.is_err() {
+            println!("error: {}", flush_res.unwrap_err());
+            println!("Try again...\n");
+            continue
         }
-        
+
         //
         // Read the users input into a buffer
         let mut inp_buffer = String::new();
         let inp_res =  io::stdin().read_line(&mut inp_buffer);
-        match inp_res {
-            Ok(_) => {}
-            Err(error) => {
-                println!("error: {error} \nTry again...");
-                continue    // Go to the next iteration
-            }
+        if inp_res.is_err() {
+            println!("error: {}", inp_res.unwrap_err());
+            println!("Try again...\n");
+            continue
         }
         
         //
         // Cast from string to u8
         let input = inp_buffer.trim().parse::<u8>();
         match input {
-            Ok(_) => {}     // Continue
+            Ok(_) => {
+                // We successfully got the num of baskets
+                num_baskets = input.unwrap();
+                break;
+            }
             Err(error) => {
-                println!("error: {error} \nTry again...");
+                println!("error: {error}");
+                println!("Try again...\n");
                 continue    // Go to the next iteration
             }
         }
-
-        num_baskets = input.unwrap();
-        break;
     }
 
     let total_choco = num_choco * num_baskets;
-    let total_gold = num_gold * num_baskets;
-    let total_silver = num_silver * num_baskets;
+    let total_gold  = num_gold * num_baskets;
+    let total_silver= num_silver * num_baskets;
 
     let total_total = total_choco + total_gold + total_silver;
 
