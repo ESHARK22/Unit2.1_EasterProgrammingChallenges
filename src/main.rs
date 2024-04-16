@@ -1,4 +1,4 @@
-use std::io;
+use std::{fmt::format, io};
 use std::io::Write;
 
 use dialoguer::{theme::ColorfulTheme, Select};
@@ -8,7 +8,7 @@ fn main() {
     let selections = &[
         "Task 1 - Enough Easter Eggs?",
         "Task 2 - Basketful of Eggs!",
-        "Task 3",
+        "Task 3 - Long Enough?",
         "Task 4",
         "Task 5",
         "Task 6",
@@ -46,12 +46,66 @@ fn main() {
                     return 
                 }
                 _ => {
-                    println!("Thats not a task!")
+                    // Its none of the above?
+                    println!("Wait a minuite...\n You're not meant to be here!")
                 }
 
         }
+
+        print!("\n    Press enter to return back to the main menu...");
+        io::stdout().flush().unwrap_or({});
+        io::stdin().read_line(&mut String::new()).unwrap_or(0);
     }
 
+}
+
+fn input(prompt: &String) -> String {
+
+    loop {
+        print!("{prompt}");
+
+        // Flush stdout, since its a new line buffer, but we are not printing a new line
+        if let Err(error) = io::stdout().flush() {
+            // Print the error message and go to the next iteration
+            println!("error: {error}", );
+            println!("Try again...\n");
+            continue
+        }
+
+        // Clear the buffer
+        let mut inp_buffer = String::new();
+
+        // Read stdin into the "buffer"
+        match io::stdin().read_line(&mut inp_buffer) {
+            Ok(_) => {
+                return inp_buffer;
+            }
+            Err(error) => {
+                // Print the error message and go to the next iteration
+                println!("error: {error}", );
+                println!("Try again...\n");
+                continue
+            }
+        }
+    }
+}
+
+fn int_input(prompt: &String) -> usize {
+    loop {
+        let str_input = input(&prompt);
+
+        let int_input = str_input.trim().parse::<usize>();
+        match int_input {
+            Ok(int) => {
+                return int;
+            }
+            Err(error) => {
+                println!("error: {error} \nTry again...");
+                continue    // Try again
+            }
+        }
+
+    }
 }
 
 fn task_1() {
@@ -67,58 +121,14 @@ fn task_1() {
     );
 
     let mut input_day       = 1_u8;
-    let mut collected_eggs  = 0_u8;
+    let mut collected_eggs  = 0_usize;
     
     while input_day != 6 {
 
-        //
-        // Print the prompt
+        let eggs = int_input(&format!("How many egges did you collect on day {input_day}? "));
 
-        print!("How many egges did you collect on day {input_day}? ");
-        let flush_res = io::stdout().flush();
-
-        // Make sure the last operation was successfull
-        match flush_res {
-            Ok(_) => {}     // Continue in the current iteration
-            Err(error) => {
-                println!("error: {error} \nTry again...");
-                continue    // Go to the next iteration
-            },
-        }
-
-
-        //
-        // Read input into a buffer
-
-        let mut inp_buffer = String::new();                     // New "buffer" to store the string
-        let inp_res = io::stdin().read_line(&mut inp_buffer);   // Read stdin into the "buffer"
-
-        // Make sure the last operation was successfull
-        match inp_res {
-            Ok(_) => {}     // Continue
-            Err(error) => {
-                println!("error: {error} \nTry again...");
-                continue    // Go to the next iteration
-            },
-        }
-
-        //
-        // Cast from string to u8
-
-        let input = inp_buffer.trim().parse::<u8>();
-        match input {
-            Ok(_) => {}     // Continue
-            Err(error) => {
-                println!("error: {error} \nTry again...");
-                continue    // Go to the next iteration
-            }
-        }
-
-        //
-        // Add to the total collected, and move onto the next day
-
-        collected_eggs += input.unwrap(); // Still a Result type, so unwrap it.
-        input_day += 1; // Next day
+        collected_eggs += eggs;
+        input_day +=1;
     }
 
     if collected_eggs >= 50 {
@@ -139,11 +149,11 @@ fn task_2() {
         number of eggs needed. 
         "
     );
-    let num_baskets: u8;
+    let num_baskets: usize;
 
-    let mut num_choco   = 0_u8;
-    let mut num_gold    = 0_u8;  
-    let mut num_silver  = 0_u8;
+    let mut num_choco   = 0_usize;
+    let mut num_gold    = 0_usize;  
+    let mut num_silver  = 0_usize;
 
     let mut collected = 0;
     while collected != 3 {
@@ -157,83 +167,14 @@ fn task_2() {
             }
         };
 
-        print!("How many {egg_type} eggs per basket? ");
+        let eggs = int_input(&format!("How many {egg_type} eggs per basket? "));
 
-        //
-        // Flush stdout
-        let flush_res = io::stdout().flush();
-        if flush_res.is_err() {
-            // Print the error message and go to the next iteration
-            println!("error: {}", flush_res.unwrap_err());
-            println!("Try again...\n");
-            continue
-        }
+        *egg_var += eggs;
+        collected += 1
         
-        //
-        // Read the users input into a bufferS
-        let mut inp_buffer = String::new();
-        let input_res = io::stdin().read_line(&mut inp_buffer);
-        if input_res.is_err() {
-            // Print the error message and go to the next iteration
-            println!("error: {}", input_res.unwrap_err());
-            println!("Try again...\n");
-            continue
-        }
-        
-        // 
-        // Cast from string to u8
-        let input_u8_res = inp_buffer.trim().parse::<u8>();
-        if input_u8_res.is_err()  {
-            // Print the error message and go to the next iteration
-            println!("error: {}", input_u8_res.unwrap_err());
-            println!("Try again...\n");
-            continue
-
-        } else {
-            // All is good, set the value num_*, and move on to the next egg type
-            *egg_var = input_u8_res.unwrap();
-            collected += 1
-        };
     }
 
-    loop {
-        print!("How many baskets would you like? ");
-
-        //
-        // Flush stdout
-        let flush_res = io::stdout().flush();
-        if flush_res.is_err() {
-            println!("error: {}", flush_res.unwrap_err());
-            println!("Try again...\n");
-            continue
-        }
-
-        //
-        // Read the users input into a buffer
-        let mut inp_buffer = String::new();
-        let inp_res =  io::stdin().read_line(&mut inp_buffer);
-        if inp_res.is_err() {
-            println!("error: {}", inp_res.unwrap_err());
-            println!("Try again...\n");
-            continue
-        }
-        
-        //
-        // Cast from string to u8
-        let input = inp_buffer.trim().parse::<u8>();
-        match input {
-            Ok(_) => {
-                // We successfully got the num of baskets
-                num_baskets = input.unwrap();
-                break;
-            }
-            Err(error) => {
-                println!("error: {error}");
-                println!("Try again...\n");
-                continue    // Go to the next iteration
-            }
-        }
-    }
+    let num_baskets = int_input(&String::from("How many baskets would you like?"));
 
     let total_choco = num_choco * num_baskets;
     let total_gold  = num_gold * num_baskets;
@@ -252,11 +193,68 @@ fn task_2() {
 }
 
 fn task_3() {
-    todo!()
+    println!(
+        "
+        *** Task 3 ***
+        Write a program that calculates the total time spent on an Easter egg hunt. The
+        user inputs the time (in minutes) spent each day over 3 days. Print out the
+        total number of hours. If the total time is more than 120 minutes, print \"Wow,
+        that was a long hunt!\". Otherwise, print \"Efficient hunting!\". 
+        "
+    );
+
+    let mut total_mins = 0_usize;
+    let mut collected_day = 1;
+
+    while collected_day != 4 {
+
+        let day_str = match collected_day {
+            1 => { "first" }
+            2 => { "second"}        
+            3 => { "third" }
+            _ => {
+                panic!("You're not meant to see this!!!")
+            }
+        };
+
+        let mins = int_input(&format!("How many minuites did you spend on the {day_str} day? "));
+
+        total_mins += mins;
+        collected_day += 1
+    }
+    println!("You spend a total of {total_mins} mins");
+
+    if total_mins > 4320 {
+        println!("Woah...You beat time itself!!!")
+    } else if total_mins > 120 {
+        println!("Wow, that was a long hunt!")
+    } else {
+        println!("Efficient hunting!")
+    }
+
+
 }
 
 fn task_4() {
-    todo!()
+    println!(
+        "
+        *** Task 4 ***
+        An Easter event needs to distribute eggs evenly across 5 baskets. The user 
+        inputs the total number of eggs and the program calculates how many eggs go 
+        into each basket. If there are leftovers, it should also print the number of 
+        leftover eggs. The output should be in the form of \"X eggs per basket with Y 
+        leftover\". 
+        "
+    );
+
+    let num_of_eggs_per_basket = int_input(&String::from("How many eggs do you have? "));
+    let baskets = 5_usize;
+    
+    let remaining_eggs = num_of_eggs_per_basket % baskets;
+    let eggs_per_basket = (num_of_eggs_per_basket-remaining_eggs) / baskets;
+
+    println!("> {eggs_per_basket} eggs per basket with {remaining_eggs} left over")
+
 }
 
 fn task_5() {
