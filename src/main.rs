@@ -1,3 +1,4 @@
+use std::collections::HashMap;
 use std::{io};
 use std::io::Write;
 
@@ -10,8 +11,8 @@ fn main() {
         "Task 2 - Basketful of Eggs!",
         "Task 3 - Long Enough?",
         "Task 4",
-        "Task 5",
-        "Task 6",
+        "Task 5 - Efficient Easter",
+        "Task 6 - Who got the most eggs?",
         "Task 7",
         "Task 8",
         "Task 9",
@@ -268,13 +269,64 @@ fn task_5() {
         "
     );
 
+    let mut helpers_eggs_per_day = [0;5];
     
+    for x in 0..5 {
+        let bunny_num = x+1;
+        let eggs = int_input(&String::from(format!("How many eggs can bunny {bunny_num} prepare in 1 day? ")));
+        helpers_eggs_per_day[x] = eggs;
+    }
 
+    let max_eggs_per_day: usize = helpers_eggs_per_day.iter().sum();
+    let max_eggs_per_week = max_eggs_per_day * 4;
+
+    let average_helper_eggs = max_eggs_per_day / 5; 
+    println!("> Each helper can prepare an average of {average_helper_eggs} per day");
+    println!("> {max_eggs_per_week} eggs can be prepared over the 4 days of Easter weekend")
 }
 
 fn task_6() {
-    todo!()
+    println!(
+        "
+        *** Task 5 ***
+        The Easter bunny visits 4 houses in a row, dropping off eggs. Write a program
+        that asks for the number of eggs dropped at each house and prints the house 
+        that got the most eggs. If two or more houses got the same highest number of 
+        eggs, print \"Tie\". }}
+        "
+    );
+
+    let mut eggs_in_houses = HashMap::new();
+
+    for house_num in 1..5 {
+        let eggs = int_input(&String::from(format!("How many eggs got dropped at house {house_num}? ")));
+        eggs_in_houses.insert(house_num as usize, eggs);
+    }
+
+    let max_eggs = eggs_in_houses.values().max().unwrap();
+
+    let mut max_occurences = HashMap::new();
+
+    for (house_num, eggs) in eggs_in_houses.iter() {
+        if eggs == max_eggs {
+            max_occurences.insert(house_num.clone(), eggs);
+        }
+    }
+
+    if max_occurences.len() == 1 { 
+        let max_house_num = max_occurences.keys().max().unwrap();
+        println!("> House {max_house_num} got the most eggs with {max_eggs} eggs!")
+    } else {
+        println!("> The following houses tied with {max_eggs} eggs!");
+
+        for (house_num, _) in max_occurences {
+            println!("> - House {house_num}");
+        }
+
+    }
+
 }
+
 
 fn task_7() {
     todo!()

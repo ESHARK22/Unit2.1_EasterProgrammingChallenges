@@ -38,7 +38,7 @@ jobs:
 before_deploy:
   - git config --local user.name "Eshark"
   - git config --local user.email "eshark@eshark.tech"
-  - export TRAVIS_TAG="nightly-$TRAVIS_BUILD_NUMBER"
+  - export TRAVIS_TAG="build-$TRAVIS_BUILD_NUMBER"
   - echo "Tagging commit ${TRAVIS_COMMIT} with tag ${TRAVIS_TAG}"
   - git tag "$TRAVIS_TAG" "$TRAVIS_COMMIT"
 
