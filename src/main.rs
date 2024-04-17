@@ -1,4 +1,4 @@
-use std::{fmt::format, io};
+use std::{io};
 use std::io::Write;
 
 use dialoguer::{theme::ColorfulTheme, Select};
@@ -149,7 +149,6 @@ fn task_2() {
         number of eggs needed. 
         "
     );
-    let num_baskets: usize;
 
     let mut num_choco   = 0_usize;
     let mut num_gold    = 0_usize;  
@@ -258,7 +257,19 @@ fn task_4() {
 }
 
 fn task_5() {
-    todo!()
+    println!(
+        "
+        *** Task 5 ***
+        Calculate the efficiency of 5 Easter Bunny's helpers. The user inputs the 
+        number of eggs each helper can prepare in one day. The program calculates 
+        and prints the average number of eggs prepared by each helper. Calculate 
+        the total eggs prepared over the 4 days of Easter weekend (Good Friday 
+        to Easter Monday) 
+        "
+    );
+
+    
+
 }
 
 fn task_6() {
