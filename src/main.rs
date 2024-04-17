@@ -1,7 +1,6 @@
 use std::collections::HashMap;
-use std::{io};
+use std::io;
 use std::io::Write;
-
 use dialoguer::{theme::ColorfulTheme, Select};
 
 fn main() {
@@ -10,10 +9,10 @@ fn main() {
         "Task 1 - Enough Easter Eggs?",
         "Task 2 - Basketful of Eggs!",
         "Task 3 - Long Enough?",
-        "Task 4",
+        "Task 4 - Distributing Easter",
         "Task 5 - Efficient Easter",
         "Task 6 - Who got the most eggs?",
-        "Task 7",
+        "Task 7 - *****",
         "Task 8",
         "Task 9",
         "Task 10",
@@ -329,17 +328,108 @@ fn task_6() {
 
 
 fn task_7() {
-    todo!()
+    println!(
+        "
+        *** Task 7 ***
+        Ask the user to enter an integer (N). Print a pattern of asterisks (*) for the 
+        entered number of lines, where the first line has 1 *, the second line has 2 *, 
+        and so on, up to N stars. 
+        "
+    );    
+
+    let num_of_asterix = int_input(&String::from("How many asterix's would you like? "));
+    for x in 0..num_of_asterix+1 {
+        println!("{:*<1$}", "", x);
+    }
 }
 
 fn task_8() {
-    todo!()
+    println!(
+        "
+        *** Task 8 ***
+        Write a program that asks for the start time and the end time of an Easter egg
+        hunt, including both hours and minutes (two inputs for start time and two more 
+        for end time, the first of each an integer for hours, the second an integer for 
+        minutes). Calculate the duration of the hunt in hours and minutes. 
+        "
+    );    
+
+    fn hours_to_mins(hours: usize) -> usize {
+        return hours * 60
+    }
+    
+    let mut start_hour : usize;
+    let mut start_min  : usize;
+    let mut end_hour   : usize;
+    let mut end_min    : usize;
+
+    loop {
+        start_hour = int_input(&String::from("What hour did the Easter egg hunt start?"));
+        if !(start_hour >= 0) || !(start_hour <= 24) {
+            println!("Hmmm...You must be living on another planet...");
+            println!("Try again...");
+        } else {
+            break
+        }
+    }
+
+    loop {
+        start_min = int_input(&String::from("What minuite did the Easter egg hunt start?"));
+        if !(start_min >= 0) || !(start_min <= 60) {
+            println!("Hmmm...You must be living on another planet...");
+            println!("Try again...");
+        } else {
+            break
+        }
+    }
+
+    loop {
+        end_hour = int_input(&String::from("What hour did the Easter egg hunt end?"));
+        if !(end_hour >= 0) || !(end_hour <= 24) {
+            println!("Hmmm...You must be living on another planet...");
+            println!("Try again...");
+        } else {
+            break
+        }
+    }
+
+    loop {
+        end_min = int_input(&String::from("What minuite did the Easter egg hunt end?"));
+        if !(end_min >= 0) || !(end_min <= 60) {
+            println!("Hmmm...You must be living on another planet...");
+            println!("Try again...");
+        } else {
+            break
+        }
+    }
+
+    let start = hours_to_mins(start_hour) + start_min;
+    let end = hours_to_mins(end_hour) + end_min;
+
+    let total_duration_mins = end - start;
+
+
+
+
 }
 
 fn task_9() {
-    todo!()
-}
+    println!(
+        "
+        *** Task 9 ***
+        Write a program that simulates an egg race. Ask for the time (in seconds) it 
+        took each of 4 participants to complete the race. The participant with the 
+        shortest time wins. Print the winning time and say \"Congratulations to the 
+        winner!\", or say \"Tie!\", if two or more times are the same. 
+        "
+    );    }
 
 fn task_10() {
-    todo!()
-}
+    println!(
+        "
+        *** Task 10 ***
+        The Easter bunny left a coded message where each letter's ASCII code is 
+        increased by 1 to encode the message. Write a program that decodes a given 
+        message by subtracting 1 from the ASCII code of each character.  
+        "
+    );    }
