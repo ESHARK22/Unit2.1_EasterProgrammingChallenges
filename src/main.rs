@@ -1,7 +1,11 @@
-use std::collections::HashMap;
 use std::io;
 use std::io::Write;
-use dialoguer::{theme::ColorfulTheme, Select};
+use std::collections::HashMap;
+
+use dialoguer::{
+    theme::ColorfulTheme, 
+    Select
+};
 
 fn main() {
     // task_1()
@@ -13,10 +17,10 @@ fn main() {
         "Task 5 - Efficient Easter",
         "Task 6 - Who got the most eggs?",
         "Task 7 - *****",
-        "Task 8",
-        "Task 9",
-        "Task 10",
-        "Quit :("
+        "Task 8 - How long did you last?",
+        "Task 9 - Easter Egg Race",
+        "Task 10 - Easter Encoding",
+        "End of easter (quit)"
     ];
     loop {
         let selection_index = Select::with_theme(&ColorfulTheme::default())
@@ -173,7 +177,7 @@ fn task_2() {
         
     }
 
-    let num_baskets = int_input(&String::from("How many baskets would you like?"));
+    let num_baskets = int_input(&String::from("How many baskets would you like? "));
 
     let total_choco = num_choco * num_baskets;
     let total_gold  = num_gold * num_baskets;
@@ -326,7 +330,6 @@ fn task_6() {
 
 }
 
-
 fn task_7() {
     println!(
         "
@@ -364,8 +367,8 @@ fn task_8() {
     let mut end_min    : usize;
 
     loop {
-        start_hour = int_input(&String::from("What hour did the Easter egg hunt start?"));
-        if !(start_hour >= 0) || !(start_hour <= 24) {
+        start_hour = int_input(&String::from("What hour did the Easter egg hunt start? "));
+        if !(start_hour <= 24) {
             println!("Hmmm...You must be living on another planet...");
             println!("Try again...");
         } else {
@@ -374,8 +377,8 @@ fn task_8() {
     }
 
     loop {
-        start_min = int_input(&String::from("What minuite did the Easter egg hunt start?"));
-        if !(start_min >= 0) || !(start_min <= 60) {
+        start_min = int_input(&String::from("What minuite did the Easter egg hunt start? "));
+        if !(start_min <= 60) {
             println!("Hmmm...You must be living on another planet...");
             println!("Try again...");
         } else {
@@ -384,18 +387,21 @@ fn task_8() {
     }
 
     loop {
-        end_hour = int_input(&String::from("What hour did the Easter egg hunt end?"));
-        if !(end_hour >= 0) || !(end_hour <= 24) {
+        end_hour = int_input(&String::from("What hour did the Easter egg hunt end? "));
+        if !(end_hour <= 24) {
             println!("Hmmm...You must be living on another planet...");
             println!("Try again...");
+        } else if start_hour > end_hour {
+            println!("It cant have finsihed before it started...");
+            println!("Try again...");
         } else {
-            break
+            break;
         }
     }
 
     loop {
-        end_min = int_input(&String::from("What minuite did the Easter egg hunt end?"));
-        if !(end_min >= 0) || !(end_min <= 60) {
+        end_min = int_input(&String::from("What minuite did the Easter egg hunt end? "));
+        if !(end_min <= 60) {
             println!("Hmmm...You must be living on another planet...");
             println!("Try again...");
         } else {
@@ -406,10 +412,12 @@ fn task_8() {
     let start = hours_to_mins(start_hour) + start_min;
     let end = hours_to_mins(end_hour) + end_min;
 
-    let total_duration_mins = end - start;
+    let total_duration = end - start;
 
+    let total_duration_hours = total_duration / 60;
+    let total_duration_mins = total_duration - (60 * total_duration_hours);
 
-
+    println!("> The hunt lasted {total_duration_hours} hours and {total_duration_mins} mins.");
 
 }
 
@@ -422,7 +430,40 @@ fn task_9() {
         shortest time wins. Print the winning time and say \"Congratulations to the 
         winner!\", or say \"Tie!\", if two or more times are the same. 
         "
-    );    }
+    );    
+
+    let mut race_times = HashMap::new();
+
+    for race_index in 0..4 {
+        let parcipitant = race_index as usize + 1;
+        let time = int_input(&String::from(format!("What time (s) did participant {parcipitant} take? ")));
+        race_times.insert(parcipitant, time);
+    }
+
+    let max_time = race_times.values().max().unwrap();
+
+    let mut max_occurences = HashMap::new();
+
+    for (participant, time) in race_times.iter() {
+        if time == max_time {
+            max_occurences.insert(participant, time);
+        }
+    }
+
+    if max_occurences.len() == 1 { 
+        let participant = max_occurences.keys().max().unwrap();
+        println!("> Participant {participant} with a time of {max_time} seconds!")
+    
+    } else {
+        println!("> The following participants tied with {max_time} seconds!");
+
+        for (paritipant, _) in max_occurences {
+            println!("> - Participant {paritipant}");
+        }
+
+    }
+
+}
 
 fn task_10() {
     println!(
@@ -432,4 +473,23 @@ fn task_10() {
         increased by 1 to encode the message. Write a program that decodes a given 
         message by subtracting 1 from the ASCII code of each character.  
         "
-    );    }
+    );    
+
+    // Ifmmp Xpsme! = Hello World!
+
+    let encoded_mesage = input(&String::from("Enter the encoded message: "));
+    let mut decoded_message = String::new();
+
+    for ch in encoded_mesage.chars() {
+        if ch.is_ascii_alphabetic() || ch.is_ascii_alphanumeric() {
+            let decoded_char  = ((ch as u8) - 1) as char;   // Subtract 1 from the ASCII code
+            decoded_message.push(decoded_char);
+        } else {
+            println!("Not decoding invalid character: {ch}");
+            decoded_message.push(ch);
+        }
+    }
+
+    println!("> Decoded message:");
+    println!("> {decoded_message}");
+}
