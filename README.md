@@ -1,3 +1,7 @@
+# *Moved* [here](https://github.com/ESHARK22/AqaGCSEComputerScienceStuff/)
+
+-----------------------------------------------------------------------------
+
 Just a computer science homework.
 
 Builds can be found [here](https://github.com/ESHARK22/Unit2.1_EasterProgrammingChallenges/releases/latest) 
